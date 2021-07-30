@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ShortUrl;
+use App\Model\ShortUrlRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,12 @@ class ShortUrlRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ShortUrl::class);
+    }
+
+    public function create(ShortUrl $shortUrl): ShortUrl
+    {
+        $this->_em->persist($shortUrl);
+        $this->_em->flush();
     }
 
     // /**
