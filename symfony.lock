@@ -19,6 +19,12 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.2"
     },
+    "delight-im/alphabets": {
+        "version": "v1.0.0"
+    },
+    "delight-im/random": {
+        "version": "v1.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -329,6 +335,9 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client": {
+        "version": "v5.3.4"
     },
     "symfony/http-client-contracts": {
         "version": "v2.4.0"
