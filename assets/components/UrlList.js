@@ -18,7 +18,7 @@ export default class UrlList extends React.Component {
                     <tbody>
                     {this.props.urls && this.props.urls.map(url =>
                         <tr key={url.id}>
-                            <td>{url.longUrl}</td>
+                            <td>{url.longUrl} <a href={'/view/' + url.shortUrl}>view</a></td>
                             <td><a href={this.props.domain + url.shortUrl}>{url.shortUrl}</a></td>
                             <td>{url.likes}</td>
                             <td>{url.hits}</td>
