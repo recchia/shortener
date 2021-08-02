@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use App\Controller\AddLikeToShorUrl;
 use App\Repository\ShortUrlRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,12 +29,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
     'normalization_context' => ['groups' => ['read']],
     'denormalization_context' => ['groups' => ['write']],
 ])]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt', 'likes'], arguments: ['orderParameterName' => 'order'])]
 class ShortUrl
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 

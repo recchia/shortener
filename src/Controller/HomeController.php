@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\ShortUrl;
-use App\Exception\UrlShortenerProviderException;
 use App\Form\UrlShortenerType;
 use App\Message\RecordHitMessage;
 use App\Model\ShortUrlRequest;

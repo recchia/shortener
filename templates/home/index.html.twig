@@ -4,10 +4,14 @@
 
 {% block body %}
     <h1 class="text-center">Url Shortener Application</h1>
-    <div class="row g-3" style="margin-top: 100px">
+    <div class="row g-3" style="margin-top: 100px; margin-bottom: 100px">
         {{ form_start(form, { 'method': 'POST', 'action': path('add_new') ,'attr': {'class': 'd-flex'}}) }}
             {{ form_widget(form.url) }}
             {{ form_widget(form.button) }}
         {{ form_end(form) }}
+    </div>
+    <div class="row">
+        <div class="col" {{ stimulus_controller('recent-short-urls', {'items-url': path('api_short_urls_get_collection'), 'title': 'Recent Urls added', 'base-url': url('home')}) }}></div>
+        <div class="col" {{ stimulus_controller('top-ten-urls', {'items-url': path('api_short_urls_get_collection'), 'title': 'Top ten Urls', 'base-url': url('home')}) }}></div>
     </div>
 {% endblock %}
