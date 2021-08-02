@@ -3,6 +3,7 @@
 {% block title %}Url Shortener Application{% endblock %}
 
 {% block body %}
+    <h1 class="text-center">Url Shortener Application</h1>
     <div class="row g-3" style="margin-top: 100px">
         {{ form_start(form, { 'method': 'POST', 'action': path('add_new') ,'attr': {'class': 'd-flex'}}) }}
             {{ form_widget(form.url) }}
