@@ -3,13 +3,30 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\AddLikeToShorUrl;
 use App\Repository\ShortUrlRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ShortUrlRepository::class)
+ * @ORM\EntityListeners({"App\Doctrine\ShortUrlListener"})
  */
-#[ApiResource]
+#[ApiResource(itemOperations: [
+    'get',
+    'put',
+    'patch',
+    'delete',
+    'add_like' => [
+        'method' => 'POST',
+        'path' => '/short_urls/{id}/like',
+        'controller' => AddLikeToShorUrl::class,
+        'denormalization_context' => ['groups' => 'like'],
+    ]
+], attributes: [
+    'normalization_context' => ['groups' => ['read']],
+    'denormalization_context' => ['groups' => ['write']],
+])]
 class ShortUrl
 {
     /**
@@ -21,28 +38,33 @@ class ShortUrl
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
-    private $longUrl;
+    private ?string $longUrl;
 
     /**
      * @ORM\Column(type="string", length=9)
+     * @Groups({"read"})
      */
-    private $shortUrl;
+    private ?string $shortUrl;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"read"})
      */
-    private $hits;
+    private ?int $hits = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"read"})
      */
-    private $likes;
+    private ?int $likes = 0;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"read"})
      */
-    private $createdAt;
+    private ?\DateTimeImmutable $createdAt;
 
     public function getId(): ?int
     {
@@ -105,6 +127,13 @@ class ShortUrl
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function addLike(): self
+    {
+        ++$this->likes;
 
         return $this;
     }

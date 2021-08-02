@@ -38,7 +38,7 @@ class UrlShortenerProvider implements UrlShortenerProviderInterface
 
     private function urlExists(string $url): bool
     {
-        $response = $this->httpClient->request('POST', $url);
+        $response = $this->httpClient->request('GET', $url);
 
         return ($response->getStatusCode() === Response::HTTP_OK);
     }

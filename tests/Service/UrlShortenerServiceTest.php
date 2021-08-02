@@ -17,9 +17,8 @@ class UrlShortenerServiceTest extends TestCase
     public function itCanCreateAShortUrl(): void
     {
         $url = 'https://www.pierorecchia.com';
-        $urlShortenerProvider = $this->createMock(UrlShortenerProviderInterface::class);
         $shortUrlRepository = $this->createMock(ShortUrlRepository::class);
-        $urlShortenerService = new UrlShortenerService($urlShortenerProvider, $shortUrlRepository);
+        $urlShortenerService = new UrlShortenerService($shortUrlRepository);
 
         $shortUrl = $urlShortenerService->create(new ShortUrlRequest($url));
 

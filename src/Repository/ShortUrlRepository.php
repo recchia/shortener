@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\ShortUrl;
 use App\Model\ShortUrlRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,10 +21,27 @@ class ShortUrlRepository extends ServiceEntityRepository
         parent::__construct($registry, ShortUrl::class);
     }
 
-    public function create(ShortUrl $shortUrl): ShortUrl
+    public function create(ShortUrl $shortUrl): void
     {
         $this->_em->persist($shortUrl);
         $this->_em->flush();
+    }
+
+    public function update(ShortUrl $shortUrl): void
+    {
+        $this->_em->persist($shortUrl);
+        $this->_em->flush();
+    }
+
+    public function listPaginated(int $firstResult = 0, int $maxResult = 10): \Generator
+    {
+        $qb = $this->createQueryBuilder('su')->setFirstResult($firstResult)->setMaxResults($maxResult);
+
+        $paginator  = new Paginator($qb, false);
+
+        foreach ($paginator as $item) {
+            yield $item;
+        }
     }
 
     // /**

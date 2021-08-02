@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Contract\UrlShortenerProviderInterface;
 use App\Entity\ShortUrl;
 use App\Model\ShortUrlRequest;
 use App\Repository\ShortUrlRepository;
@@ -10,15 +9,12 @@ use App\Repository\ShortUrlRepository;
 class UrlShortenerService
 {
 
-    private UrlShortenerProviderInterface $urlShortenerProvider;
     private ShortUrlRepository $shortUrlRepository;
 
     public function __construct(
-        UrlShortenerProviderInterface $urlShortenerProvider,
         ShortUrlRepository $shortUrlRepository
     )
     {
-        $this->urlShortenerProvider = $urlShortenerProvider;
         $this->shortUrlRepository = $shortUrlRepository;
     }
 
@@ -26,11 +22,26 @@ class UrlShortenerService
     {
         $shortUrl = new ShortUrl();
         $shortUrl
-            ->setLongUrl($shortUrlRequest->getUrl())
-            ->setShortUrl($this->urlShortenerProvider->reduceUrl($shortUrlRequest->getUrl()));
+            ->setLongUrl($shortUrlRequest->getUrl());
 
         $this->shortUrlRepository->create($shortUrl);
 
         return $shortUrl;
+    }
+
+    public function getOneByShortUrl(string $shortUrl): ShortUrl
+    {
+        return $this->shortUrlRepository->findOneBy(['shortUrl' => $shortUrl]);
+    }
+
+    public function list(int $firstResult = 0, $maxResult = 10)
+    {
+        $shortUrls = $this->shortUrlRepository->listPaginated($firstResult, $maxResult);
+    }
+
+    public function addLike(ShortUrl $shortUrl): void
+    {
+        $shortUrl->addLike();
+        $this->shortUrlRepository->update($shortUrl);
     }
 }

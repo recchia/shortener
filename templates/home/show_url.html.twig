@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Url Detail{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>{{ shortUrl.longUrl |raw }}</h1>
+
+        <div data-controller="counter"></div>
+    </div>
+{% endblock %}
