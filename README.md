@@ -7,6 +7,7 @@ Application for generate short url version from long urls, developed with Symfon
 * Docker Compose
 
 ###Steps for setup
+
 ***1 - Get the project:***
 ```{bash}
 git clone git@github.com:recchia/shortener.git
