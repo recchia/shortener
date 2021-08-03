@@ -3,9 +3,17 @@
 {% block title %}Url Detail{% endblock %}
 
 {% block body %}
-    <div>
-        <h1>{{ shortUrl.longUrl |raw }}</h1>
-
-        <div data-controller="counter"></div>
+    <div style="margin-top: 100px" data-controller="likes" data-likes-item-url-value="{{ path('api_short_urls_add_like_item', { id: shortUrl.id }) }}">
+        <div class="card">
+            <h5 class="card-header">Url Detail</h5>
+            <div class="card-body">
+                <h5 class="card-title">{{ shortUrl.longUrl |raw }}</h5>
+                <p class="card-text">Short version: <a href="{{ path('redirection', { urlId: shortUrl.shortUrl }) }}">{{ url('home')| raw ~ shortUrl.shortUrl }}</a></p>
+                <p class="card-text">Likes: <span data-likes-target="count">{{ shortUrl.likes }}</span></p>
+                <p class="card-text">Hits: {{ shortUrl.hits }}</a></p>
+                <p class="card-text">Created At: {{ shortUrl.createdAt|date("F jS \\a\\t g:ia") }}</a></p>
+                <a href="#" class="btn btn-primary" data-action="likes#increment">&hearts; Like</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
